@@ -1,0 +1,51 @@
+2026-03-07 15:15:39 | [32mINFO    [0m | __main__ | Generating 10000 training samples...
+2026-03-07 15:15:40 | [32mINFO    [0m | __main__ | Running 10-fold cross-validation...
+2026-03-07 15:17:14 | [32mINFO    [0m | __main__ | CV R²: 0.8930 ± 0.0052
+2026-03-07 15:17:14 | [32mINFO    [0m | __main__ | CV MAE: 2.4976 ± 0.1044
+2026-03-07 15:17:38 | [32mINFO    [0m | __main__ | Train R²=0.9760  MAE=1.17  RMSE=1.48  time=23.7s
+2026-03-07 15:17:38 | [32mINFO    [0m | __main__ | Model saved to models/codesense_model.pkl
+2026-03-07 15:27:32 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-03-07 15:29:58 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-03-07 15:30:03 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-03-07 15:46:41 | [31mERROR   [0m | __main__ | Analysis error: Traceback (most recent call last):
+  File "F:\CodeSense-AI_Based_Code_Quality_Analyzer\app.py", line 590, in page_analyze
+    result = run_analysis(
+             ^^^^^^^^^^^^^
+  File "F:\CodeSense-AI_Based_Code_Quality_Analyzer\app.py", line 154, in run_analysis
+    analysis = engines["static"].analyze(code, language)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\CodeSense-AI_Based_Code_Quality_Analyzer\analyzer.py", line 166, in analyze
+    "security":    self._security(code, lines, language),
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\CodeSense-AI_Based_Code_Quality_Analyzer\analyzer.py", line 339, in _security
+    if re.search(pattern, line, re.IGNORECASE):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python311\Lib\re\__init__.py", line 176, in search
+    return _compile(pattern, flags).search(string)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python311\Lib\re\__init__.py", line 294, in _compile
+    p = _compiler.compile(pattern, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python311\Lib\re\_compiler.py", line 745, in compile
+    p = _parser.parse(p, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python311\Lib\re\_parser.py", line 989, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python311\Lib\re\_parser.py", line 464, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python311\Lib\re\_parser.py", line 548, in _parse
+    code = _escape(source, this, state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python311\Lib\re\_parser.py", line 444, in _escape
+    raise source.error("invalid group reference %d" % group, len(escape) - 1)
+re.error: invalid group reference 1 at position 43
+
+2026-03-07 15:56:58 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-03-07 15:56:59 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-03-07 15:57:00 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-03-17 02:00:30 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-03-17 02:00:47 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-03-17 02:11:49 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-03-17 14:14:24 | [32mINFO    [0m | __main__ | Cache hit for analysis.

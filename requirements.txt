@@ -1,0 +1,27 @@
+# CodeSense v2.0 - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# ── Web UI ────────────────────────────────────────────────────────────────────
+streamlit>=1.32.0
+
+# ── ML & Data Science ─────────────────────────────────────────────────────────
+scikit-learn>=1.4.0
+numpy>=1.26.0
+pandas>=2.2.0
+
+# ── Visualization ─────────────────────────────────────────────────────────────
+plotly>=5.19.0
+
+# ── Security ─────────────────────────────────────────────────────────────────
+bcrypt>=4.1.2
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+python-dotenv>=1.0.0
+
+# ── Code Analysis ─────────────────────────────────────────────────────────────
+# Built-in: ast, tokenize, re, sqlite3, hashlib, smtplib, logging
+# No extra parser libraries needed for heuristic analysis
+
+# ── Dev/Test ──────────────────────────────────────────────────────────────────
+pytest>=8.0.0
+pytest-cov>=4.1.0

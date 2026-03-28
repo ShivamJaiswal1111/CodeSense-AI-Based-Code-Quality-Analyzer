@@ -1,0 +1,13 @@
+{
+  "r2": 0.976,
+  "mae": 1.1749,
+  "rmse": 1.4773,
+  "cv_r2_mean": 0.893,
+  "cv_r2_std": 0.0052,
+  "cv_mae_mean": 2.4976,
+  "n_samples": 10000,
+  "n_features": 33,
+  "trained_at": "2026-03-07T09:47:38.513524",
+  "target_r2": 0.9,
+  "passed": true
+}
