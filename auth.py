@@ -75,8 +75,10 @@ class Auth:
         if user_id is None:
             return False, "Email or username already registered.", None
 
+        # Auto-verify — no OTP required
+        self.db.verify_user(user_id)
         logger.info("New user registered: %s (id=%s)", username, user_id)
-        return True, "Registration successful. Please verify your email.", user_id
+        return True, "Account created! You can now sign in.", user_id
 
     # ─── Login ───────────────────────────────────────────────────────────────
 
@@ -106,9 +108,6 @@ class Auth:
                 return False, "Too many failed attempts. Account locked for 30 minutes.", None
             remaining = self.cfg.max_attempts - attempts
             return False, f"Invalid email or password. {remaining} attempts remaining.", None
-
-        if not user.get("is_verified"):
-            return False, "Please verify your email address before logging in.", None
 
         self.db.reset_login_attempts(user["id"])
         logger.info("User logged in: %s", user["username"])
