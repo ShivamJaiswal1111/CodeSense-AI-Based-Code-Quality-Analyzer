@@ -302,16 +302,33 @@ def _login_form(auth_obj: Auth):
 
 
 def _create_demo_user(auth_obj: Auth):
-    db = get_db()
+    db         = get_db()
     demo_email = "demo@codesense.ai"
+    demo_pass  = "Demo@1234!"
+
     user = db.get_user_by_email(demo_email)
     if not user:
-        auth_obj.register("demo_user", demo_email, "Demo@1234!", "Demo User")
-        db.verify_user(db.get_user_by_email(demo_email)["id"])
+        # Register creates + auto-verifies the user
+        ok, msg, uid = auth_obj.register("demo_user", demo_email, demo_pass, "Demo User")
+        if not ok and "already" not in msg.lower():
+            st.error(f"Could not create demo account: {msg}")
+            return
         user = db.get_user_by_email(demo_email)
-    st.session_state.user  = user
-    st.session_state.token = auth_obj.create_session(user["id"])
-    _go("dashboard")
+
+    if not user:
+        st.error("Demo account setup failed. Please register manually.")
+        return
+
+    # Make sure it is verified (safe to call even if already verified)
+    db.verify_user(user["id"])
+
+    ok, msg, logged_in = auth_obj.login(demo_email, demo_pass)
+    if ok and logged_in:
+        st.session_state.user  = logged_in
+        st.session_state.token = auth_obj.create_session(logged_in["id"])
+        _go("dashboard")
+    else:
+        st.error(f"Demo login failed: {msg}")
 
 
 def _register_form(auth_obj: Auth):
@@ -326,8 +343,6 @@ def _register_form(auth_obj: Auth):
     if submit:
         ok, msg, uid = auth_obj.register(username, email, password, full_name)
         if ok:
-            # Auto-verify for demo
-            get_db().verify_user(uid)
             st.success("✅ Account created! You can now sign in.")
         else:
             st.error("❌ " + msg)
