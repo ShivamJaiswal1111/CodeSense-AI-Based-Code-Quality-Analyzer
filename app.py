@@ -302,33 +302,75 @@ def _login_form(auth_obj: Auth):
 
 
 def _create_demo_user(auth_obj: Auth):
+    """
+    Robust demo login — uses upsert so it always works regardless of
+    whether the demo account already exists, is broken, or is missing.
+    """
+    import bcrypt as _bcrypt
+    from datetime import datetime as _dt
+
     db         = get_db()
     demo_email = "demo@codesense.ai"
     demo_pass  = "Demo@1234!"
+    now        = _dt.utcnow().isoformat()
+    pw_hash    = _bcrypt.hashpw(demo_pass.encode(), _bcrypt.gensalt(rounds=10)).decode()
 
-    user = db.get_user_by_email(demo_email)
+    user = None
+
+    if db.use_remote:
+        # Supabase: upsert on email so we never get a duplicate error
+        try:
+            res = db._q("users").upsert({
+                "username":      "demo_user",
+                "email":         demo_email,
+                "password_hash": pw_hash,
+                "full_name":     "Demo User",
+                "is_verified":   True,
+                "is_active":     True,
+                "login_attempts": 0,
+                "created_at":    now,
+                "updated_at":    now,
+            }, on_conflict="email").execute()
+            if res.data:
+                user = res.data[0]
+        except Exception as e:
+            logger.error("Demo upsert failed: %s", e)
+    else:
+        # SQLite local — try insert, ignore duplicate
+        import sqlite3 as _sq
+        try:
+            conn = db._sqlite()
+            cur  = conn.execute(
+                "INSERT INTO users (username,email,password_hash,full_name,is_verified,is_active,created_at,updated_at) VALUES (?,?,?,?,1,1,?,?)",
+                ("demo_user", demo_email, pw_hash, "Demo User", now, now),
+            )
+            conn.commit()
+        except _sq.IntegrityError:
+            # Already exists — update password hash so login works
+            conn = db._sqlite()
+            conn.execute("UPDATE users SET password_hash=?,is_verified=1,is_active=1 WHERE email=?",
+                         (pw_hash, demo_email))
+            conn.commit()
+
+    # Fetch the user (works for both paths)
     if not user:
-        # Register creates + auto-verifies the user
-        ok, msg, uid = auth_obj.register("demo_user", demo_email, demo_pass, "Demo User")
-        if not ok and "already" not in msg.lower():
-            st.error(f"Could not create demo account: {msg}")
-            return
         user = db.get_user_by_email(demo_email)
 
+    # Last resort: query without is_active filter (Supabase boolean quirk)
+    if not user and db.use_remote:
+        try:
+            res = db._q("users").select("*").eq("email", demo_email).limit(1).execute()
+            user = res.data[0] if res.data else None
+        except Exception:
+            pass
+
     if not user:
-        st.error("Demo account setup failed. Please register manually.")
+        st.error("❌ Demo setup failed. Please use Register tab to create an account.")
         return
 
-    # Make sure it is verified (safe to call even if already verified)
-    db.verify_user(user["id"])
-
-    ok, msg, logged_in = auth_obj.login(demo_email, demo_pass)
-    if ok and logged_in:
-        st.session_state.user  = logged_in
-        st.session_state.token = auth_obj.create_session(logged_in["id"])
-        _go("dashboard")
-    else:
-        st.error(f"Demo login failed: {msg}")
+    st.session_state.user  = user
+    st.session_state.token = auth_obj.create_session(user["id"])
+    _go("dashboard")
 
 
 def _register_form(auth_obj: Auth):

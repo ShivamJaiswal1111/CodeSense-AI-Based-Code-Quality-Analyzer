@@ -16,26 +16,41 @@ logger = get_logger(__name__)
 
 
 def _use_supabase() -> bool:
-    """Return True if Supabase credentials are available."""
+    """Return True if Supabase credentials are available AND package is installed."""
+    # First check if supabase package is actually importable
+    try:
+        from supabase import create_client  # noqa: F401
+    except ImportError:
+        logger.warning("supabase package not installed — using SQLite fallback")
+        return False
+    # Then check if credentials exist
     try:
         import streamlit as st
         if hasattr(st, "secrets"):
-            return bool(st.secrets.get("SUPABASE_URL") and st.secrets.get("SUPABASE_KEY"))
+            url = st.secrets.get("SUPABASE_URL", "")
+            key = st.secrets.get("SUPABASE_KEY", "")
+            if url and key:
+                return True
     except Exception:
         pass
-    return bool(os.getenv("SUPABASE_URL") and os.getenv("SUPABASE_KEY"))
+    url = os.getenv("SUPABASE_URL", "")
+    key = os.getenv("SUPABASE_KEY", "")
+    return bool(url and key)
 
 
 def _get_supabase():
     """Return a Supabase client."""
     from supabase import create_client
+    url, key = "", ""
     try:
         import streamlit as st
-        url = st.secrets.get("SUPABASE_URL") or os.getenv("SUPABASE_URL", "")
-        key = st.secrets.get("SUPABASE_KEY") or os.getenv("SUPABASE_KEY", "")
+        url = st.secrets.get("SUPABASE_URL", "") or os.getenv("SUPABASE_URL", "")
+        key = st.secrets.get("SUPABASE_KEY", "") or os.getenv("SUPABASE_KEY", "")
     except Exception:
         url = os.getenv("SUPABASE_URL", "")
         key = os.getenv("SUPABASE_KEY", "")
+    if not url or not key:
+        raise ValueError("SUPABASE_URL and SUPABASE_KEY must be set")
     return create_client(url, key)
 
 
@@ -186,8 +201,16 @@ class Database:
 
     def get_user_by_email(self, email: str) -> Optional[Dict]:
         if self.use_remote:
-            res = self._q("users").select("*").eq("email", email.lower()).eq("is_active", True).limit(1).execute()
-            return res.data[0] if res.data else None
+            # Don't filter by is_active — boolean comparison varies across
+            # supabase-py versions; filter in Python instead
+            res = self._q("users").select("*").eq("email", email.lower()).limit(1).execute()
+            if res.data:
+                u = res.data[0]
+                # Accept active users (True, 1, "true", "1", or missing key)
+                active = u.get("is_active", True)
+                if active not in (False, 0, "false", "0"):
+                    return u
+            return None
         else:
             row = self._sqlite().execute(
                 "SELECT * FROM users WHERE email=? AND is_active=1", (email.lower(),)
@@ -197,7 +220,12 @@ class Database:
     def get_user_by_id(self, user_id: int) -> Optional[Dict]:
         if self.use_remote:
             res = self._q("users").select("*").eq("id", user_id).limit(1).execute()
-            return res.data[0] if res.data else None
+            if res.data:
+                u = res.data[0]
+                active = u.get("is_active", True)
+                if active not in (False, 0, "false", "0"):
+                    return u
+            return None
         else:
             row = self._sqlite().execute(
                 "SELECT * FROM users WHERE id=? AND is_active=1", (user_id,)
