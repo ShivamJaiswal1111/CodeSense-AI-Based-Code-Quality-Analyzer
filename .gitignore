@@ -1,7 +1,58 @@
-models/*.pkl
-.env
 
-__pycache__/
+
+
+
 *.pyc
+
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+
+# Virtual environment
 venv/
+env/
+.venv/
+
+
+# Environment & secrets — NEVER commit these
 .env
+.streamlit/secrets.toml
+
+# Database — regenerated automatically on deploy
+*.db
+*.sqlite
+*.sqlite3
+
+# ML model — commit these so Streamlit Cloud doesn't retrain on every boot
+# models/*.pkl
+# models/*.json
+
+# Cache & logs — not needed in repo
+cache/
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Streamlit
+.streamlit/
+# (keep config.toml but not secrets.toml)
+!.streamlit/config.toml

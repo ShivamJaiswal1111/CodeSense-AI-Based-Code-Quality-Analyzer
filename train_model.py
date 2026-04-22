@@ -132,19 +132,19 @@ def train(n_samples: int = 10000, save: bool = True) -> Dict:
 
     # Ensemble: Random Forest + Gradient Boosting
     rf = RandomForestRegressor(
-        n_estimators=300,
-        max_depth=20,
+        n_estimators=100,       # Reduced for Streamlit Cloud (1GB RAM limit)
+        max_depth=10,
         min_samples_split=4,
         min_samples_leaf=2,
         max_features="sqrt",
         bootstrap=True,
-        n_jobs=-1,
+        n_jobs=1,               # No parallel jobs on cloud to save RAM
         random_state=42,
     )
     gb = GradientBoostingRegressor(
-        n_estimators=200,
-        learning_rate=0.05,
-        max_depth=6,
+        n_estimators=80,        # Reduced for Streamlit Cloud
+        learning_rate=0.08,
+        max_depth=4,
         subsample=0.8,
         min_samples_split=4,
         random_state=42,
@@ -162,8 +162,8 @@ def train(n_samples: int = 10000, save: bool = True) -> Dict:
     # ── Cross-validation ─────────────────────────────────────────────────────
     logger.info("Running %d-fold cross-validation...", CROSS_VAL_FOLDS)
     kf     = KFold(n_splits=CROSS_VAL_FOLDS, shuffle=True, random_state=42)
-    cv_r2  = cross_val_score(pipeline, X, y, cv=kf, scoring="r2", n_jobs=-1)
-    cv_mae = cross_val_score(pipeline, X, y, cv=kf, scoring="neg_mean_absolute_error", n_jobs=-1)
+    cv_r2  = cross_val_score(pipeline, X, y, cv=kf, scoring="r2", n_jobs=1)
+    cv_mae = cross_val_score(pipeline, X, y, cv=kf, scoring="neg_mean_absolute_error", n_jobs=1)
 
     logger.info("CV R²: %.4f ± %.4f", cv_r2.mean(), cv_r2.std())
     logger.info("CV MAE: %.4f ± %.4f", -cv_mae.mean(), cv_mae.std())
