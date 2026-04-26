@@ -96,15 +96,40 @@ Tracks your scores over time so you can actually see yourself improving. Made th
 
 ## 📸 Screenshots
 
-> *(add your own screenshots here — I'll add mine after the project submission 😂)*
+### Login & Register Page
+<img 
+  src="https://drive.google.com/uc?export=view&id=1ZwSK5XwSvUIxGwtO5OIs_7xkSJJc0D9-" 
+  alt="Login & Register Page" 
+  width="500"
+/>
 
-| Dashboard | Analysis Results |
-|-----------|-----------------|
-| ![dashboard](https://via.placeholder.com/400x250/1E1E2E/1E88E5?text=Dashboard) | ![results](https://via.placeholder.com/400x250/1E1E2E/43A047?text=Results) |
+### Dashboard
+<img 
+  src="https://drive.google.com/uc?export=view&id=1XQBL_chZZ7a1yH1XqoibwOXijPWONL9C" 
+  alt="Dashboard" 
+  width="500"
+/>
 
-| DSA Detection | Security Tab |
-|-----------|-----------------|
-| ![dsa](https://via.placeholder.com/400x250/1E1E2E/FDD835?text=DSA+Detection) | ![security](https://via.placeholder.com/400x250/1E1E2E/E53935?text=Security+Scanner) |
+### Analysis Results
+<img 
+  src="https://drive.google.com/uc?export=view&id=1qN-EBEIuPzhOyLCHmAdNh-zRHpRNrh8D" 
+  alt="Analysis Results" 
+  width="500"
+/>
+
+### Achievement
+<img 
+  src="https://drive.google.com/uc?export=view&id=1A_VLJHkzVrpsbkpmEnz0z5oUtuhd5LRB" 
+  alt="Achievement" 
+  width="500"
+/>
+
+### Progress
+<img 
+  src="https://drive.google.com/uc?export=view&id=1bLUcJ6jiZ-eKHkDXIeaqYDs2r3JyUrtZ" 
+  alt="Progress" 
+  width="500"
+/>
 
 ---
 
