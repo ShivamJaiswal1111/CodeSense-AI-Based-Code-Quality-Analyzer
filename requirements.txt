@@ -6,6 +6,7 @@ plotly>=5.19.0
 bcrypt>=4.1.2
 python-dotenv>=1.0.0
 requests>=2.31.0
-supabase==2.4.6
+supabase==2.10.0
 gotrue==2.4.2
 httpx>=0.24.0,<0.28.0
+statsmodels>=0.14.0
