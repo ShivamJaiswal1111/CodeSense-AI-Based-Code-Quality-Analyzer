@@ -1,42 +1,35 @@
-
-
-
-
-*.pyc
-
-
 # Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-.Python
+*.so
 *.egg
 *.egg-info/
 dist/
 build/
-*.so
 
 # Virtual environment
 venv/
 env/
 .venv/
 
-
-# Environment & secrets — NEVER commit these
+# Environment & secrets
 .env
 .streamlit/secrets.toml
 
-# Database — regenerated automatically on deploy
+# Database
 *.db
+*.db-wal
+*.db-shm
 *.sqlite
 *.sqlite3
 
-# ML model — commit these so Streamlit Cloud doesn't retrain on every boot
-# models/*.pkl
-# models/*.json
+# Models (keep them)
+!models/
+!models/*.pkl
 
-# Cache & logs — not needed in repo
+# Cache & logs
 cache/
 logs/
 *.log
@@ -52,7 +45,7 @@ desktop.ini
 *.swp
 *.swo
 
-# Streamlit
-.streamlit/
-# (keep config.toml but not secrets.toml)
+# Streamlit config
+.streamlit/*
 !.streamlit/config.toml
+!.streamlit/
