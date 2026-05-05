@@ -49,3 +49,15 @@ re.error: invalid group reference 1 at position 43
 2026-03-17 02:00:47 | [32mINFO    [0m | __main__ | Cache hit for analysis.
 2026-03-17 02:11:49 | [32mINFO    [0m | __main__ | Cache hit for analysis.
 2026-03-17 14:14:24 | [32mINFO    [0m | __main__ | Cache hit for analysis.
+2026-04-22 16:39:07 | [32mINFO    [0m | __main__ | Generating 10000 training samples...
+2026-04-22 16:39:09 | [32mINFO    [0m | __main__ | Running 10-fold cross-validation...
+2026-04-22 16:41:51 | [32mINFO    [0m | __main__ | CV R²: 0.8618 ± 0.0065
+2026-04-22 16:41:51 | [32mINFO    [0m | __main__ | CV MAE: 2.8410 ± 0.1202
+2026-04-22 16:41:59 | [32mINFO    [0m | __main__ | Train R²=0.9190  MAE=2.18  RMSE=2.71  time=8.3s
+2026-04-22 16:41:59 | [32mINFO    [0m | __main__ | Model saved to models/codesense_model.pkl
+2026-05-06 00:50:58 | [32mINFO    [0m | __main__ | Generating 10000 training samples...
+2026-05-06 00:51:00 | [32mINFO    [0m | __main__ | Running 10-fold cross-validation...
+2026-05-06 00:54:25 | [32mINFO    [0m | __main__ | CV R²: 0.8618 ± 0.0065
+2026-05-06 00:54:25 | [32mINFO    [0m | __main__ | CV MAE: 2.8410 ± 0.1202
+2026-05-06 00:54:36 | [32mINFO    [0m | __main__ | Train R²=0.9190  MAE=2.18  RMSE=2.71  time=10.9s
+2026-05-06 00:54:36 | [32mINFO    [0m | __main__ | Model saved to models/codesense_model.pkl

@@ -5,3 +5,5 @@
 2026-03-07 15:55:20 | [32mINFO    [0m | db | Database schema initialized at codesense.db
 2026-03-17 01:55:00 | [32mINFO    [0m | db | Database schema initialized at codesense.db
 2026-03-17 14:07:16 | [32mINFO    [0m | db | Database schema initialized at codesense.db
+2026-05-06 01:04:38 | [33mWARNING [0m | db | supabase package not installed — using SQLite fallback
+2026-05-06 01:04:38 | [32mINFO    [0m | db | Database: SQLite at codesense.db
